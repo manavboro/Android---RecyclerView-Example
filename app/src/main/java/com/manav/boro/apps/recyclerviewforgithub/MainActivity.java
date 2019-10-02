@@ -1,18 +1,22 @@
 package com.manav.boro.apps.recyclerviewforgithub;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.manav.boro.apps.recyclerviewforgithub.adapter.SampleAdapter;
+import com.manav.boro.apps.recyclerviewforgithub.model.Sample;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +25,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        recyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+
+        SampleAdapter adapter = new SampleAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+
+        /* update recycler data */
+        adapter.updateData(getData());
+
+
+    }
+
+    private ArrayList<Sample> getData() {
+
+        ArrayList<Sample> sampleArrayList = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+
+            sampleArrayList.add(new Sample(R.drawable.photo1,i));
+        }
+
+        return sampleArrayList;
     }
 
     @Override
